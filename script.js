@@ -43,7 +43,7 @@ $(function () {
 
     // if local storage has an entry for this block populate the text area with the text in local storage
     var localStorageObject = JSON.parse(localStorage.getItem("schedule"));
-    if(localStorageObject[hour.attr("id")] != null){
+    if(localStorageObject != null && localStorageObject[hour.attr("id")] != null){
       hour.children("textarea").val(localStorageObject[hour.attr("id")]);
     }
 
