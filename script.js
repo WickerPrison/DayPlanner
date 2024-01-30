@@ -15,11 +15,6 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 
-  var localStorageObject = JSON.parse(localStorage.getItem("schedule"));
-  if(localStorageObject == null){
-    localStorageObject = {};
-  }
-
   var hourContainer = $("#hour-container");
   var hourTemplate = $("#hour-template");
   var currentTime = dayjs().hour();
@@ -50,6 +45,11 @@ $(function () {
       hour.addClass("past");
     }
 
+    var localStorageObject = JSON.parse(localStorage.getItem("schedule"));
+    if(localStorageObject[hour.attr("id")] != null){
+      hour.children("textarea").val(localStorageObject[hour.attr("id")]);
+    }
+
     hourContainer.append(hour);
 
     var saveButton = hour.children("button.saveBtn");
@@ -57,11 +57,17 @@ $(function () {
   }
 
 
-  function saveSchedule(){
-    textArea = $(hour).children("textarea");
-    if(textArea.value == "") return;
+  function saveSchedule(event){
+    var textArea = $(event.currentTarget).parent().children("textarea");    
+    if(textArea.val() == " ") return;
+    
+    var hour = $(event.currentTarget).parent();
 
-    localStorageObject[hour.id] = textArea.value;
+    var localStorageObject = JSON.parse(localStorage.getItem("schedule"));
+    if(localStorageObject == null){
+      localStorageObject = {};
+    }
+    localStorageObject[hour.attr("id")] = textArea.val();
     localStorage.setItem("schedule", JSON.stringify(localStorageObject));
   }
 
