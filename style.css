@@ -58,6 +58,7 @@ textarea {
   transition: all 0.3s ease-in-out;
 }
 
+/* This hides the template that will be copied for the time slots */
 #hour-template{
   display: none;
 }
