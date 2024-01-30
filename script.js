@@ -20,4 +20,29 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+
+  var hourContainer = $("#hour-container");
+  var hourTemplate = $("#hour-template");
+  var currentTime24 = dayjs("H");
+  var currentTime = dayjs("h");
+  
+  for(var i = 0; i < 9; i++){
+    var hour = hourTemplate.clone();
+    var hourTime24 = i + 9;
+    var hourTime = i + 9;
+    var meridiem = "AM";
+    if(hourTime > 11){
+      meridiem = "PM";
+      if(hourTime > 12){
+        hourTime -= 12;
+      }
+    }
+    hour.attr("id", "hour-" + hourTime);
+
+    $(hour).children("div").text(hourTime + meridiem);
+
+
+    hourContainer.append(hour);
+  }
+
 });
