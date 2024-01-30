@@ -15,6 +15,11 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 
+  var localStorageObject = JSON.parse(localStorage.getItem("schedule"));
+  if(localStorageObject == null){
+    localStorageObject = {};
+  }
+
   var hourContainer = $("#hour-container");
   var hourTemplate = $("#hour-template");
   var currentTime = dayjs().hour();
@@ -34,7 +39,6 @@ $(function () {
 
     $(hour).children("div").text(hourTime + meridiem);
 
-
     var difference = hourTime24 - currentTime;
     if(difference > 0){
       hour.addClass("future");
@@ -47,6 +51,18 @@ $(function () {
     }
 
     hourContainer.append(hour);
+
+    var saveButton = hour.children("button.saveBtn");
+    saveButton.on('click', saveSchedule);
+  }
+
+
+  function saveSchedule(){
+    textArea = $(hour).children("textarea");
+    if(textArea.value == "") return;
+
+    localStorageObject[hour.id] = textArea.value;
+    localStorage.setItem("schedule", JSON.stringify(localStorageObject));
   }
 
 });
